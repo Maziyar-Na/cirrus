@@ -2,7 +2,7 @@
 
 # get third party libs
 git submodule init
-git submodule update
+git submodule update --recursive
 
 # install eigen, keyutils, kerberos, sparsehash, gflags, glog
 cd third_party
