@@ -266,7 +266,7 @@ def make_executables(path, image_owner_name, username):
     log.debug("Building Cirrus.")
     instance.run_command("git clone https://github.com/Maziyar-Na/cirrus.git")
     instance.run_command("cd cirrus; ./bootstrap.sh")
-    instance.run_command("cd cirrus; make -j 16")
+    instance.run_command("make -j 16")
 
     log.debug("Publishing executables.")
     for executable in EXECUTABLES:
