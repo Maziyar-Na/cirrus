@@ -4,4 +4,4 @@ from .cf import CollaborativeFiltering
 from .lr import LogisticRegression
 from .utils import *
 from .preprocessing import Preprocessing, Normalization
-import graph
+from . import graph

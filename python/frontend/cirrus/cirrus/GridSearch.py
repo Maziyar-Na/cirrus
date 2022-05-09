@@ -6,8 +6,8 @@ import time
 import boto3
 import math
 
-import graph
-from utils import *
+from . import graph
+from .utils import *
 from . import automate
 from . import configuration
 from . import parameter_server

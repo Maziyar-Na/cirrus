@@ -3,8 +3,8 @@ import threading
 import time
 from abc import ABCMeta, abstractmethod
 
-import messenger
-from CostModel import CostModel
+from . import messenger
+from .CostModel import CostModel
 from . import automate
 from . import configuration
 

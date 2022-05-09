@@ -217,9 +217,14 @@ def make_ubuntu_build_image(name):
         status, _, _ = instance.run_command("sudo apt-get update", False)
         if status == 0:
             break
+    # Sometimes `apt-get update` doesn't work, returning exit code 100.
+    while True:
+        status, _, _ = instance.run_command("sudo apt-get update", False)
+        if status == 0:
+            break
 
     instance.run_command("yes | sudo apt-get install build-essential cmake \
-                          automake zlib1g-dev libssl-dev libcurl4-nss-dev \
+                          automake zlib1g-dev libcurl4-nss-dev \
                           bison libldap2-dev libkrb5-dev")
     instance.run_command("yes | sudo apt-get install awscli")
 
@@ -259,7 +264,7 @@ def make_executables(path, image_owner_name, username):
     instance.start()
 
     log.debug("Building Cirrus.")
-    instance.run_command("git clone https://github.com/jcarreira/cirrus.git")
+    instance.run_command("git clone https://github.com/Maziyar-Na/cirrus.git")
     instance.run_command("cd cirrus; ./bootstrap.sh")
     instance.run_command("cd cirrus; make -j 16")
 

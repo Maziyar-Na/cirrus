@@ -23,7 +23,7 @@ AWS_CREDENTIALS_PATH = "~/.aws/credentials"
 
 
 # An S3 URL at which the maintainers have published a Cirrus build.
-PUBLISHED_BUILD = "s3://cirrus-public"
+PUBLISHED_BUILD = "s3://cirrus-public-nmaziyar"
 
 
 # The name to give to the server AMI.
@@ -389,7 +389,7 @@ def prompt(explanation, prompts, validator=None, postprocess=None):
     print(explanation)
 
     while True:
-        values = [raw_input(prompt + ": ") for prompt in prompts]
+        values = [input(prompt + ": ") for prompt in prompts]
         if validator(*values):
             break
         else:

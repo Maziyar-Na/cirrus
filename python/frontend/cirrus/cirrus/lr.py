@@ -1,6 +1,6 @@
 # Logistic Regression
 
-from core import BaseTask
+from .core import BaseTask
 
 
 class LogisticRegressionTask(BaseTask):
@@ -12,7 +12,7 @@ class LogisticRegressionTask(BaseTask):
         print("Logistic Regression Task Lost")
 
     def define_config(self):
-        
+
         if self.use_grad_threshold:
             grad_t = 1
         else:

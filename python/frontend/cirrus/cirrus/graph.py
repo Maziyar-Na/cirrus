@@ -12,7 +12,7 @@ from IPython.display import IFrame
 from dash.dependencies import Input, Output, State
 from plotly.graph_objs import *
 
-from core import BaseTask
+from .core import BaseTask
 
 process = psutil.Process(os.getpid())
 
