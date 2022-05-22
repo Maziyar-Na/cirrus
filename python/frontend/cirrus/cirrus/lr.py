@@ -18,7 +18,7 @@ class LogisticRegressionTask(BaseTask):
         else:
             grad_t = 0
 
-        config = "load_input_path: /mnt/efs/criteo_kaggle/train.csv \n" + \
+        config = "load_input_path: /mnt/serverlessML/cirrus/tests/test_data/lr_example_criteo.csv \n" + \
                  "load_input_type: csv\n" + \
                  "dataset_format: binary\n" + \
                  "num_classes: 2 \n" + \

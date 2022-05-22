@@ -21,9 +21,9 @@ from cirrus.utils import get_all_keys, delete_all_keys, get_data_from_s3, \
 MAX_THREADS = 400
 HASH_SEED = 42  # Must be equal to the seed in feature_hashing_helper.py
 EPSILON = .0001 # Epsilon to determine if floating points are equal
-LIBSVM_FILE = "criteo.small.svm"
-INPUT_BUCKET = "criteo-kaggle-19b"
-OUTPUT_BUCKET = "bucket-neel"
+LIBSVM_FILE = "/mnt/serverlessML/cirrus/tests/test_data/lr_example_criteo.svm"
+INPUT_BUCKET = "criteo-kaggle-cirrus"
+OUTPUT_BUCKET = "criteo-kaggle-cirrus"
 
 class Test(Enum):
     """ Indicate which test to run. """
@@ -35,7 +35,7 @@ class Test(Enum):
     ALL = 6
     NONE = 7
 
-RUN_TEST = Test.NORMAL_TEST
+RUN_TEST = Test.LOAD_LIBSVM
 
 class SimpleTest(Thread):
     """ Test that the data is within the correct bounds. """

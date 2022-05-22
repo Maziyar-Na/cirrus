@@ -226,6 +226,9 @@ def make_ubuntu_build_image(name):
     instance.run_command("yes | sudo apt-get install build-essential cmake \
                           automake zlib1g-dev libcurl4-nss-dev \
                           bison libldap2-dev libkrb5-dev")
+    #instance.run_command("yes | sudo apt-get install libssl-dev")
+    log.debug("waiting for libssl to install")
+    time.sleep(2*60)
     instance.run_command("yes | sudo apt-get install awscli")
 
     # Install some useful tools.
@@ -265,8 +268,10 @@ def make_executables(path, image_owner_name, username):
 
     log.debug("Building Cirrus.")
     instance.run_command("git clone https://github.com/Maziyar-Na/cirrus.git")
-    instance.run_command("cd cirrus; ./bootstrap.sh")
-    instance.run_command("make -j 16")
+    dbg_s, dbg_sout, dbg_serr = instance.run_command("cd cirrus; ./bootstrap.sh")
+    #log.debug("bootstrap output: %s" % dbg_sout)
+    #log.debug("bootstrap error output: %s" % dbg_serr)
+    instance.run_command("cd cirrus; make -j`nproc`")
 
     log.debug("Publishing executables.")
     for executable in EXECUTABLES:
@@ -512,7 +517,7 @@ def make_lambda(name, lambda_package_path, lambda_size, concurrency=-1):
 
     from . import setup
 
-    assert isinstance(concurrency, (int, long))
+    assert isinstance(concurrency, int)
     assert concurrency >= -1
 
     log = logging.getLogger("cirrus.automate.make_lambda")
@@ -548,7 +553,7 @@ def make_lambda(name, lambda_package_path, lambda_size, concurrency=-1):
     )
 
     if concurrency != -1:
-        log.debug("Allocating reserved concurrent executions to the Lambda.")
+        log.debug("Allocating reserved concurrent executions to the Lambda. Concurrency: %d", concurrency)
         resources.lambda_client.put_function_concurrency(
             FunctionName=name,
             ReservedConcurrentExecutions=concurrency
@@ -664,12 +669,14 @@ def maintain_workers(n, config, ps, stop_event, experiment_id, lambda_size):
             worker_id (int): The ID of the worker, in `[0, n)`.
         """
         generation = 0
-
+        log = logging.getLogger("cirrus.automate.maintain_one")
         while not stop_event.is_set():
             assert generation < MAX_LAMBDA_GENERATIONS
 
             task_id = worker_id * MAX_LAMBDA_GENERATIONS + generation
             start = time.time()
+            log.debug("[dbg] lambda name: %s, generation: %d, n: %d, worker id: %d" %(lambda_name, generation, n, worker_id))
+
             launch_worker(lambda_name, task_id, config, n, ps)
 
             duration = time.time() - start
@@ -684,6 +691,7 @@ def maintain_workers(n, config, ps, stop_event, experiment_id, lambda_size):
     thread = threading.Thread(target=clean_up, name=thread_name)
     thread.start()
 
+    time.sleep(10)
     # Start one `maintain_one` thread per worker desired. Return immediately.
     base_id = experiment_id * MAX_WORKERS_PER_EXPERIMENT
     for worker_id in range(base_id, base_id + n):

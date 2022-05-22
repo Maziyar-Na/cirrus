@@ -2,6 +2,7 @@
 
 from enum import Enum
 import sklearn.datasets
+import numpy as np
 
 import boto3
 import cirrus.feature_hashing as feature_hashing
@@ -57,6 +58,7 @@ class Preprocessing(object):
         client = boto3.client("s3")
         timer = Timer("LOAD_LIBSVM").set_step("Reading file")
         data = sklearn.datasets.load_svmlight_file(path)[0]
+        print("[dbg] Maziyar: here is the data sample read from svm file: ", data[0])
         timer.timestamp().set_step("Starting loop")
         batch = [0] * ROWS_PER_CHUNK
         batch_num = 1
@@ -64,6 +66,7 @@ class Preprocessing(object):
 
         timer.timestamp().set_step("To lil")
         lil = data.tolil(copy=False) # Convert to list of lists format
+        print("[dbg] Maziyar: here is the data sample read after tolil: ", lil[0])
         for row, (row_list, data) in enumerate(zip(lil.rows, lil.data)):
             # Iterate through the rows
             if row % 10000 == 0:
@@ -72,6 +75,7 @@ class Preprocessing(object):
             for j, val in zip(row_list, data):
                 curr_row.append((j, val))
             batch[batch_size] = curr_row
+            print("[dbg] Maziyar: here is the data sample from batch: ", batch[batch_size])
             batch_size += 1
             if batch_size == ROWS_PER_CHUNK:
                 # Put the lines in S3, 50000 lines at a time
