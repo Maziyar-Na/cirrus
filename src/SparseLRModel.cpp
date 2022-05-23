@@ -414,7 +414,7 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
   // this method should work regardless of whether model is sparse
 
   ensure_preallocated_vectors(config);
-
+  std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, passed ensure_preallocated_vectors." << std::endl;
   for (uint64_t i = 0; i < dataset.num_samples(); ++i) {
     double part1_i = 0;
     for (const auto& feat : dataset.get_row(i)) {

@@ -44,8 +44,10 @@ bool LogisticSparseTaskS3::get_dataset_minibatch(
 #ifdef DEBUG
   auto start = get_time_us();
 #endif
-
+  std::cerr<<"[dbg][WORKER] Maziyar, get_dataset_minibatch, before getting the dataset" << std::endl;
   dataset = s3_iter.getNext();
+  std::cerr<<"[dbg][WORKER] Maziyar, get_dataset_minibatch, AFTER getting the dataset" << std::endl;
+
 #ifdef DEBUG
   auto finish1 = get_time_us();
 #endif
@@ -119,9 +121,9 @@ void LogisticSparseTaskS3::run(const Configuration& config,
 
 #ifdef DEBUG
     std::cout << "get model elapsed(us): " << get_time_us() - now << std::endl;
-    std::cout << "Checking model" << std::endl;
-    //model.check();
-    std::cout << "Computing gradient" << "\n";
+    std::cerr << "Checking model" << std::endl;
+    model.check();
+    std::cerr << "Computing gradient" << "\n";
     now = get_time_us();
 #endif
 

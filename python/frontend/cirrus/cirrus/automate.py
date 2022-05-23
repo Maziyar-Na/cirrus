@@ -6,7 +6,7 @@ import json
 import threading
 import inspect
 import datetime
-
+import base64
 from . import handler
 from . import configuration
 from .instance import Instance
@@ -614,6 +614,7 @@ def launch_worker(lambda_name, task_id, config, num_workers, ps):
               % (task_id, status)
     if status == 200:
         log.debug(message)
+        log.debug("[dbg] Maziyar, Successful response of the message: %s" %base64.b64decode(response["ResponseMetadata"]["HTTPHeaders"]["x-amz-log-result"]))
     else:
         raise RuntimeError(message)
 
