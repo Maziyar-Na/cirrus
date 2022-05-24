@@ -7,7 +7,7 @@
 #include <map>
 #include <unordered_map>
 
-//#define DEBUG
+#define DEBUG
 
 namespace cirrus {
 
@@ -182,7 +182,7 @@ double SparseLRModel::dot_product(
 #ifdef DEBUG
     if (std::isnan(res) || std::isinf(res)) {
       std::cout << "res: " << res << std::endl;
-      std::cout << "i: " << i << std::endl;
+      //std::cout << "value: " << value << std::endl;
       std::cout << "index: " << index << " value: " << value << std::endl;
       std::cout << "weights_[index]: " << weights_[index] << std::endl;
       exit(-1);
@@ -417,11 +417,15 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
   std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, passed ensure_preallocated_vectors." << std::endl;
   for (uint64_t i = 0; i < dataset.num_samples(); ++i) {
     double part1_i = 0;
+    std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, first loop on num_samples: "<<
+    dataset.num_samples() << std::endl;
     for (const auto& feat : dataset.get_row(i)) {
+      std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, second loop on rows: "<<
+      feat.first << std::endl;
       int index = feat.first;
       FEATURE_TYPE value = feat.second;
 #ifdef DEBUG
-      if (weights_sparse_.find(index) == weights_sparse_.end()) {
+      if (std::find(weights_sparse_.begin(), weights_sparse_.end(), index) == weights_sparse_.end()) {
         std::cout << "Needed weight with index: " << index << std::endl;
         throw std::runtime_error("Weight not found");
       }

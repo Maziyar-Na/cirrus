@@ -89,7 +89,7 @@ task = lr.LogisticRegression(
     ps=server,
     opt_method="adagrad",
     timeout=60,
-    lambda_size=192
+    lambda_size=1024
 )
 
 
