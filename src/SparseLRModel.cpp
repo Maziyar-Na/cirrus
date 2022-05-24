@@ -420,15 +420,18 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, first loop on num_samples: "<<
     dataset.num_samples() << std::endl;
     for (const auto& feat : dataset.get_row(i)) {
-      std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, second loop on rows: "<<
-      feat.first << std::endl;
+      std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, index: "<< feat.first << std::endl;
       int index = feat.first;
+      std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, the weight: "<< weights_sparse_[index]
+      << std::endl;
       FEATURE_TYPE value = feat.second;
+      std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, the value: "<< value << std::endl;
+
 #ifdef DEBUG
-      if (std::find(weights_sparse_.begin(), weights_sparse_.end(), index) == weights_sparse_.end()) {
-        std::cout << "Needed weight with index: " << index << std::endl;
-        throw std::runtime_error("Weight not found");
-      }
+      //if (std::find(weights_sparse_.begin(), weights_sparse_.end(), index) == weights_sparse_.end()) {
+        //std::cout << "Needed weight with index: " << index << std::endl;
+        //throw std::runtime_error("Weight not found");
+      //}
 #endif
       part1_i += value * weights_sparse_[index]; // 25% of the execution time is spent here
     }
