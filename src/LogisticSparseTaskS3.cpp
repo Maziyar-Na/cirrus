@@ -78,7 +78,7 @@ void LogisticSparseTaskS3::run(const Configuration& config,
   psint = new PSSparseServerInterface(ps_ip, ps_port);
   psint->connect();
   sparse_model_get = std::make_unique<SparseModelGet>(ps_ip, ps_port);
-  
+
   std::cout << "[WORKER] " << "num s3 batches: " << num_s3_batches
     << std::endl;
   wait_for_start(worker, nworkers);
@@ -107,6 +107,8 @@ void LogisticSparseTaskS3::run(const Configuration& config,
     if (!get_dataset_minibatch(dataset, s3_iter)) {
       continue;
     }
+    std::cerr << "[dbg] [LogisticSparseTaskS3] Maziyar, Here's the dataset we read: " << std::endl;
+    dataset->print();
 #ifdef DEBUG
     std::cout << get_time_us() << " [WORKER] phase 1 done. Getting the model" << std::endl;
     //dataset->check();

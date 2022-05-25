@@ -109,7 +109,7 @@ task.run()
 # In[ ]:
 
 c = 0
-while c != 60*5:
+while c != 60*2:
     for line in server.error_output().split(b'\n')[-10:]:
         if b'Accuracy' in line:
             print(line)
