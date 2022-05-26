@@ -414,18 +414,13 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
   // this method should work regardless of whether model is sparse
 
   ensure_preallocated_vectors(config);
-  std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, passed ensure_preallocated_vectors." << std::endl;
   for (uint64_t i = 0; i < dataset.num_samples(); ++i) {
     double part1_i = 0;
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, first loop on num_samples: "<<
     dataset.num_samples() << std::endl;
     for (const auto& feat : dataset.get_row(i)) {
-      std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, index: "<< feat.first << std::endl;
       int index = feat.first;
-      std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, the weight: "<< weights_sparse_[index]
-      << std::endl;
       FEATURE_TYPE value = feat.second;
-      std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, the value: "<< value << std::endl;
 
 #ifdef DEBUG
       //if (std::find(weights_sparse_.begin(), weights_sparse_.end(), index) == weights_sparse_.end()) {
@@ -435,6 +430,8 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
 #endif
       part1_i += value * weights_sparse_[index]; // 25% of the execution time is spent here
     }
+    std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part1_i initialization is done! "<<
+     std::endl;
     part2[i] = dataset.labels_[i] - s_1(part1_i);
   }
 
