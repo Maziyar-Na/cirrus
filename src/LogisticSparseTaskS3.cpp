@@ -107,8 +107,8 @@ void LogisticSparseTaskS3::run(const Configuration& config,
     if (!get_dataset_minibatch(dataset, s3_iter)) {
       continue;
     }
-    std::cerr << "[dbg] [LogisticSparseTaskS3] Maziyar, Here's the dataset we read: " << std::endl;
-    dataset->print();
+    std::cerr << "[dbg] [LogisticSparseTaskS3] Maziyar, Here's the dataset info: " << std::endl;
+    dataset->print_info();
 #ifdef DEBUG
     std::cout << get_time_us() << " [WORKER] phase 1 done. Getting the model" << std::endl;
     //dataset->check();

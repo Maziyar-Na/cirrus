@@ -37,7 +37,7 @@ class Instance(object):
     IMAGE_POLL_INTERVAL = 3
 
     # The maximum number of times to poll for an AMI becoming available.
-    IMAGE_POLL_MAX = (5 * 60) // IMAGE_POLL_INTERVAL
+    IMAGE_POLL_MAX = (7 * 60) // IMAGE_POLL_INTERVAL
 
     # The interval (in seconds) at which to poll for an instance entering the
     #   "running" state.

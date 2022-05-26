@@ -57,9 +57,8 @@ class Preprocessing(object):
         """ Load a libsvm file into S3 in the specified bucket. """
         client = boto3.client("s3")
         timer = Timer("LOAD_LIBSVM").set_step("Reading file")
-        data = sklearn.datasets.load_svmlight_file(path)
-        print("[dbg] Maziyar: here is the data sample read from svm file: ", data[0][1])
-        return
+        data = sklearn.datasets.load_svmlight_file(path)[0]
+        print("[dbg] Maziyar: here is the data sample read from svm file: ", data[0])
         timer.timestamp().set_step("Starting loop")
         batch = [0] * ROWS_PER_CHUNK
         batch_num = 1
@@ -76,7 +75,7 @@ class Preprocessing(object):
             for j, val in zip(row_list, data):
                 curr_row.append((j, val))
             batch[batch_size] = curr_row
-            print("[dbg] Maziyar: here is the data sample from batch: ", batch[batch_size])
+            # print("[dbg] Maziyar: here is the data sample from batch: ", batch[batch_size])
             batch_size += 1
             if batch_size == ROWS_PER_CHUNK:
                 # Put the lines in S3, 50000 lines at a time
