@@ -433,6 +433,8 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part1_i initialization is done! "<<
      std::endl;
     part2[i] = dataset.labels_[i] - s_1(part1_i);
+    std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part2 passed loss calculation! "<<
+      std::endl;
   }
 
   for (uint64_t i = 0; i < dataset.num_samples(); ++i) {
@@ -443,6 +445,7 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
       part3[index] += value * part2[i];
     }
   }
+  std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, passed part3 inits!"<< std::endl;
 
   std::vector<std::pair<int, FEATURE_TYPE>> res;
   res.reserve(unique_indices.size());
@@ -459,6 +462,8 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
       res.push_back(std::make_pair(index, final_grad));
     }
   }
+  std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, FINAL GRADIENT IS CALCULATED!"<< std::endl;
+
   std::unique_ptr<LRSparseGradient> ret = std::make_unique<LRSparseGradient>(std::move(res));
   return ret;
 }
