@@ -433,7 +433,7 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part1_i initialization is done! "<< std::endl;
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, label for this datapoint (labels_[i]) is: " <<
       dataset.labels_[i] << std::endl;
-    std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part1_i: " << part1_i << std::endl;
+    std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, sigmoid part1_i: " << s_1(part1_i) << std::endl;
     part2[i] = dataset.labels_[i] - s_1(part1_i);
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part2 passed loss calculation! "<<
       std::endl;
