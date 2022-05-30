@@ -23,8 +23,6 @@ T s_1(T x) {
                 std::string("s_1 generated nan/inf x: " + std::to_string(x)
                     + " res: " + std::to_string(res)));
     }
-    std::cout << "[dbg] [s_1] Here's the result of calculating the sigmoid : " << res << std::endl;
-    std::cerr << "[dbg] [s_1] Here's the result of calculating the sigmoid : " << res << std::endl;
     return res;
 }
 
