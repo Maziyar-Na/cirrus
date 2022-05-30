@@ -176,9 +176,6 @@ void SparseDataset::print() const {
 void SparseDataset::print_info() const {
   std::cout << "SparseDataset #samples: " << data_.size() << std::endl;
   std::cout << "SparseDataset #labels: " << labels_.size() << std::endl;
-  for (const auto& l : labels_)
-    std::cout << "[dbg] label read for a data point in this minibatch: " << l << std::endl;
-  std::cout << std::endl;
   //double avg = 0;
   //uint64_t count = 0;
   //for (const auto& w : data_) {
