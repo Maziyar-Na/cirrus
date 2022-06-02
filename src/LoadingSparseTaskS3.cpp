@@ -15,6 +15,7 @@ SparseDataset LoadingSparseTaskS3::read_dataset(
   InputReader input;
 
   std::string delimiter;
+  std::cerr << "[dbg] load input type: " << config.get_load_input_type() << std::endl;
   if (config.get_load_input_type() == "csv_space") {
     delimiter = "";
   } else if (config.get_load_input_type() == "csv_tab") {
@@ -107,6 +108,7 @@ void LoadingSparseTaskS3::run(const Configuration& config) {
     std::cout << "Putting object in S3 with size: " << len << std::endl;
     // we hash names to help with scaling in S3
     std::string obj_id = std::to_string(SAMPLE_BASE + i);
+
     s3_client->s3_put_object(obj_id, config.get_s3_bucket(),
                              std::string(s3_obj.get(), len));
   }

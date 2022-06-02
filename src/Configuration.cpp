@@ -81,6 +81,7 @@ void Configuration::check() const {
   }
   if (!(dataset_format == "csv" || dataset_format == "libsvm" ||
         dataset_format == "svmlight" || dataset_format == "binary")) {
+    std::cerr<< "[dbg] dataset format entered: " << dataset_format << std::endl;
     throw std::runtime_error("Unknown dataset format");
   }
   if (test_set_range.first && model_type == COLLABORATIVE_FILTERING) {

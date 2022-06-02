@@ -890,8 +890,9 @@ void InputReader::parse_criteo_kaggle_sparse_line(
 
   uint64_t col = 0;
   while (char* l = strsep(&s, delimiter.c_str())) {
-    if (col == 0 ) { // it's Id
-    } else if (col == 1) { // it's label
+    // if (col == 0 ) { // it's Id
+    // } else if (col == 1) { // it's label
+    if (col == 0 ){ //it's label, we don't have Id in our criteo kaggle ds
       label = string_to<FEATURE_TYPE>(l);
       assert(label == 0.0 || label == 1.0);
     } else {
@@ -900,7 +901,7 @@ void InputReader::parse_criteo_kaggle_sparse_line(
     }
     col++;
   }
-  
+
   if (config.get_use_bias()) { // add bias constant
     uint64_t hash = hash_f("bias") % hash_size;
     features[hash]++;

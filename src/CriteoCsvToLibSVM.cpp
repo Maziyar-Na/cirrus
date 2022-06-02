@@ -57,18 +57,29 @@ int main() {
   std::cout << "Reading criteo input..." << std::endl;
 
   cirrus::Configuration config;
-  config.load_input_path = "/mnt/efs/criteo_kaggle/train.csv";
+  config.load_input_path = "/mnt/serverlessML/corrected_train.csv";
   config.load_input_type = "csv";
-  config.s3_bucket_name = "--";
-  config.limit_samples = 50000000;
+  config.s3_bucket_name = "criteo-kaggle-cirrus";
+  config.limit_samples = 20000000;
+  config.s3_size = 50000;
   config.model_bits = 19;
   config.normalize = 1;
+  config.opt_method = "sgd";
+  config.dataset_format = "binary";
   config.check();
+  std::cerr << "[dbg] starting loadingSpartseTask to load the data into S3, config load input type" << 
+   config.load_input_type << std::endl;
+  cirrus::LoadingSparseTaskS3 lst(0,
+                                  0, 0,
+                                  0, 0,
+                                  0, "1.2.3.4",
+                                  0);
+  lst.run(config);
 
-  cirrus::SparseDataset dataset = read_dataset(config);
+  /*cirrus::SparseDataset dataset = read_dataset(config);
   dataset.check();
 
-  std::ofstream ofs ("/mnt/efs/csv_to_libsvm.txt", std::ofstream::out);
+  std::ofstream ofs ("/mnt/serverlessML/csv_to_libsvm.txt", std::ofstream::out);
 
   for (uint32_t i = 0; i < dataset.num_samples(); ++i) {
     const auto label = dataset.labels_[i];
@@ -79,7 +90,7 @@ int main() {
       ofs << " " << feat.first << ":" << feat.second;
     }
     ofs << "\n";
-  }
+  }*/
   return 0;
 }
 

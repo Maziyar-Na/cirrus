@@ -6,13 +6,14 @@ using namespace Aws::S3;
 
 namespace cirrus {
 S3Client::S3Client() {
+  Aws::SDKOptions awsOptions;
+  Aws::InitAPI(awsOptions);
   Aws::Client::ClientConfiguration clientConfig;
   clientConfig.region = Aws::Region::US_WEST_2;
-
   // try big timeout
   clientConfig.connectTimeoutMs = 30000;
   clientConfig.requestTimeoutMs = 60000;
-
+  std::cerr << "[dbg] right before creating a S3 client!" << std::endl;
   s3_client.reset(new Aws::S3::S3Client(clientConfig));
 }
 
@@ -43,12 +44,12 @@ void S3Client::s3_put_object(const std::string& key_name,
   std::cout << "setting body" << std::endl;
 #endif
   putObjectRequest.SetBody(ss);
-
+  std::cerr << "[dbg] PUT request setting body passed. " << std::endl;
 #ifdef debug
-  std::cout << "putting object" << std::endl;
+  std::cout << "putting object " << std::endl;
 #endif
   auto put_object_outcome = s3_client->PutObject(putObjectRequest);
-
+  std::cerr << "[dbg] PUT object API call passed!" << std::endl;
 #ifdef debug
   std::cout << "checking success" << std::endl;
 #endif
