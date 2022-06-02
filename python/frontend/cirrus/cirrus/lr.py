@@ -18,12 +18,12 @@ class LogisticRegressionTask(BaseTask):
         else:
             grad_t = 0
 
-        config = "load_input_path: /mnt/serverlessML/cirrus/tests/test_data/lr_example_criteo.csv \n" + \
+        config = "load_input_path: /mnt/serverlessML/corrected_train.csv \n" + \
                  "load_input_type: csv\n" + \
                  "dataset_format: binary\n" + \
                  "num_classes: 2 \n" + \
-                 "num_features: 13 \n" + \
-                 "limit_cols: 14 \n" + \
+                 "num_features: 39 \n" + \
+                 "limit_cols: 40 \n" + \
                  "normalize: 0 \n" + \
                  "limit_samples: 10000 \n" + \
                  "s3_size: 50000 \n" + \

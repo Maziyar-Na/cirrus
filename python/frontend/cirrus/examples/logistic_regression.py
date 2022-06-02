@@ -82,14 +82,14 @@ task = lr.LogisticRegression(
     learning_rate=0.0001,
     epsilon=0.0001,
     progress_callback=None,
-    train_set=(1, 350),
-    test_set=(351, 400),
-    minibatch_size=25,
+    train_set=(0, 150),
+    test_set=(151, 199),
+    minibatch_size=20,
     model_bits=19,
     ps=server,
     opt_method="adagrad",
     timeout=60,
-    lambda_size=1024
+    lambda_size=512
 )
 
 

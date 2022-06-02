@@ -397,11 +397,11 @@ void SparseLRModel::ensure_preallocated_vectors(const Configuration& config) con
     unique_indices.clear();
     unique_indices.reserve(500);
   }
-  
+
   if (part3.capacity() == 0) {
     part3.resize(1 << config.get_model_bits());
   }
-  
+
   // value needs to be less than number of samples in minibatch
   if (part2.capacity() == 0) {
     part2.resize(config.get_minibatch_size());
@@ -417,7 +417,7 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
   for (uint64_t i = 0; i < dataset.num_samples(); ++i) {
     double part1_i = 0;
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, first loop on num_samples: "<<
-    dataset.num_samples() << std::endl;
+      dataset.num_samples() << std::endl;
     for (const auto& feat : dataset.get_row(i)) {
       int index = feat.first;
       FEATURE_TYPE value = feat.second;
@@ -430,12 +430,13 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
 #endif
       part1_i += value * weights_sparse_[index]; // 25% of the execution time is spent here
     }
-    std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part1_i initialization is done! "<< std::endl;
+    std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part1_i initialization is done! " << std::endl;
+    double part1_sigmoid = s_1(part1_i);
+    std::cerr << "[dbg][WORKER] sigmoid of part1_i: " << part1_sigmoid << std::endl;
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, label for this datapoint (labels_[i]) is: " <<
       dataset.labels_[i] << std::endl;
     std::cerr << "[dbg][WORKER] Maziyar, i is: " << i << " and part2 size is: " << part2.size() << std::endl;
-    //part2[i] = dataset.labels_[i] - s_1(part1_i);
-    part2[i] = dataset.labels_[i] - (1.0/(1.0+exp(part1_i*(-1))));
+    part2[i] = dataset.labels_[i] - part1_sigmoid;
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part2 passed loss calculation! "<<
       std::endl;
   }
