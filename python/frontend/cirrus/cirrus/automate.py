@@ -692,7 +692,7 @@ def maintain_workers(n, config, ps, stop_event, experiment_id, lambda_size):
     thread = threading.Thread(target=clean_up, name=thread_name)
     thread.start()
 
-    time.sleep(10)
+    time.sleep(5)
     # Start one `maintain_one` thread per worker desired. Return immediately.
     base_id = experiment_id * MAX_WORKERS_PER_EXPERIMENT
     for worker_id in range(base_id, base_id + n):

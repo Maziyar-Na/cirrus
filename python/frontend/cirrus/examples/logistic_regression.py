@@ -88,7 +88,7 @@ task = lr.LogisticRegression(
     model_bits=19,
     ps=server,
     opt_method="adagrad",
-    timeout=60,
+    timeout=360,
     lambda_size=512
 )
 
@@ -109,7 +109,7 @@ task.run()
 # In[ ]:
 
 c = 0
-while c != 60*2:
+while c != 60*6:
     for line in server.error_output().split(b'\n')[-10:]:
         if b'Accuracy' in line:
             print(line)
