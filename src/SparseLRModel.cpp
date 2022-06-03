@@ -431,13 +431,13 @@ std::unique_ptr<ModelGradient> SparseLRModel::minibatch_grad_sparse(
       part1_i += value * weights_sparse_[index]; // 25% of the execution time is spent here
     }
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, part1_i initialization is done! " << std::endl;
-    double part1_sigmoid = 0.0;
-    try {
-      double part1_sigmoid = (double)s_1(part1_i);
-    } catch(...){
-      std::cerr << "[dbg][WORKER] Maziyar, part1_sigmoid calculation threw exception. part1: "
-       << part1_i << std::endl;
-    }
+    double part1_sigmoid = 0.5;
+    //try {
+    //  double part1_sigmoid = (double)s_1(part1_i);
+    //} catch(...){
+    //  std::cerr << "[dbg][WORKER] Maziyar, part1_sigmoid calculation threw exception. part1: "
+    //   << part1_i << std::endl;
+    //}
     std::cerr << "[dbg][WORKER] sigmoid of part1_i: " << part1_sigmoid << std::endl;
     std::cerr << "[dbg][WORKER] Maziyar, minibatch_grad_sparse function, label for this datapoint (labels_[i]) is: " <<
       dataset.labels_[i] << std::endl;
